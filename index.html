@@ -52,10 +52,30 @@ button:disabled{
     border-radius:50%;
     border:6px solid white;
     transition:transform 10s ease-out;
+    position:relative;
+    overflow:hidden;
     background: conic-gradient(
-        #222 0% 50%,
-        #fff 50% 100%
+        white 0% 50%,
+        black 50% 100%
     );
+}
+    
+.label{
+    position:absolute;
+    width:100%;
+    text-align:center;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.top{
+    top:40px;
+    color:black;
+}
+
+.bottom{
+    bottom:40px;
+    color:white;
 }
 
 #pointer{
@@ -87,7 +107,10 @@ button:disabled{
 <!-- SPIN PAGE -->
 <div class="container" id="spinPage" style="display:none;">
     <div id="pointer"></div>
-    <div id="wheel"></div>
+    <div id="wheel">
+    <div class="label top">BETTER LUCK<br>NEXT TIME</div>
+    <div class="label bottom">FREE</div>
+</div>
     <br>
     <button id="spinBtn" onclick="spinWheel()">SPIN</button>
     <h2 id="result"></h2>
