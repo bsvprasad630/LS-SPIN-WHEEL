@@ -76,4 +76,86 @@ button:disabled{
     <input type="password" id="passwordInput">
     <br><br>
     <button onclick="checkPassword()">Enter</button>
-    <p id="errorMsg" style="c
+    <p id="errorMsg" style="color:red;"></p>
+</div>
+
+<div class="container" id="spinPage" style="display:none;">
+    <div id="pointer"></div>
+    <div id="wheel"></div>
+    <br>
+    <button id="spinBtn" onclick="spinWheel()">SPIN</button>
+    <h2 id="result"></h2>
+</div>
+
+<script>
+
+const correctPassword = "LSSATYA0717";
+
+function checkPassword(){
+    let pass = document.getElementById("passwordInput").value;
+    if(pass === correctPassword){
+        document.getElementById("passwordPage").style.display="none";
+        document.getElementById("spinPage").style.display="block";
+    }else{
+        document.getElementById("errorMsg").innerText="Wrong Password!";
+    }
+}
+
+history.pushState(null, null, location.href);
+window.onpopstate = function () {
+    history.go(1);
+};
+
+if(localStorage.getItem("played") === "yes"){
+    document.body.innerHTML="<h2 style='margin-top:120px;'>You Already Played!</h2>";
+}
+
+function spinWheel(){
+
+    if(localStorage.getItem("played") === "yes"){
+        return;
+    }
+
+    let spinCount = localStorage.getItem("spinCount");
+    if(!spinCount){
+        spinCount = 0;
+    }
+
+    spinCount = parseInt(spinCount) + 1;
+    localStorage.setItem("spinCount", spinCount);
+
+    let win = false;
+
+    if(spinCount % 17 === 0){
+        win = true;
+    }
+
+    let wheel = document.getElementById("wheel");
+    let spinBtn = document.getElementById("spinBtn");
+
+    spinBtn.disabled = true;
+
+    let rotateDegree;
+
+    if(win){
+        rotateDegree = 3600 + 270; 
+    }else{
+        rotateDegree = 3600 + 90;  
+    }
+
+    wheel.style.transform = "rotate("+rotateDegree+"deg)";
+
+    setTimeout(function(){
+        if(win){
+            document.getElementById("result").innerText="FREE 🎉";
+        }else{
+            document.getElementById("result").innerText="BETTER LUCK NEXT TIME";
+        }
+        localStorage.setItem("played","yes");
+    }, 10000);
+}
+
+</script>
+
+</body>
+</html>
