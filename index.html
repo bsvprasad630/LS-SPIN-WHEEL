@@ -6,6 +6,7 @@
 
 <style>
 body{
+    margin:0;
     background:#000;
     color:#fff;
     text-align:center;
@@ -13,8 +14,8 @@ body{
 }
 
 .logo{
-    margin-top:30px;
     width:120px;
+    margin-top:40px;
 }
 
 .container{
@@ -27,6 +28,7 @@ input{
     background:black;
     color:white;
     border:2px solid white;
+    width:250px;
 }
 
 button{
@@ -69,16 +71,20 @@ button:disabled{
 
 <body>
 
-<img src="logo.png" class="logo">
+<!-- LOGO -->
+<img src="logo.jpg.jpeg" class="logo" onerror="this.style.display='none'">
 
+<!-- PASSWORD PAGE -->
 <div class="container" id="passwordPage">
     <h2>Enter Event Password</h2>
-    <input type="password" id="passwordInput">
+    <input type="password" id="passwordInput"
+           onkeypress="if(event.key==='Enter'){checkPassword();}">
     <br><br>
-    <button onclick="checkPassword()">Enter</button>
+    <button type="button" onclick="checkPassword()">Enter</button>
     <p id="errorMsg" style="color:red;"></p>
 </div>
 
+<!-- SPIN PAGE -->
 <div class="container" id="spinPage" style="display:none;">
     <div id="pointer"></div>
     <div id="wheel"></div>
@@ -91,25 +97,30 @@ button:disabled{
 
 const correctPassword = "LSSATYA0717";
 
-function checkPassword(){
-    let pass = document.getElementById("passwordInput").value;
-    if(pass === correctPassword){
-        document.getElementById("passwordPage").style.display="none";
-        document.getElementById("spinPage").style.display="block";
-    }else{
-        document.getElementById("errorMsg").innerText="Wrong Password!";
-    }
-}
-
+// Block back button
 history.pushState(null, null, location.href);
 window.onpopstate = function () {
     history.go(1);
 };
 
+// If already played
 if(localStorage.getItem("played") === "yes"){
     document.body.innerHTML="<h2 style='margin-top:120px;'>You Already Played!</h2>";
 }
 
+// Password check
+function checkPassword(){
+    let pass = document.getElementById("passwordInput").value;
+
+    if(pass === correctPassword){
+        document.getElementById("passwordPage").style.display="none";
+        document.getElementById("spinPage").style.display="block";
+    } else {
+        document.getElementById("errorMsg").innerText="Wrong Password!";
+    }
+}
+
+// Spin function
 function spinWheel(){
 
     if(localStorage.getItem("played") === "yes"){
@@ -126,6 +137,7 @@ function spinWheel(){
 
     let win = false;
 
+    // 16 lose + 17th win
     if(spinCount % 17 === 0){
         win = true;
     }
@@ -151,7 +163,9 @@ function spinWheel(){
         }else{
             document.getElementById("result").innerText="BETTER LUCK NEXT TIME";
         }
+
         localStorage.setItem("played","yes");
+
     }, 10000);
 }
 
