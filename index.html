@@ -1,109 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>College Spin Event</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS Spin Event</title>
+
 <style>
 body{
-    font-family: Arial;
+    background:#000;
+    color:#fff;
     text-align:center;
-    background:#111;
-    color:white;
+    font-family:Arial, sans-serif;
 }
+
+.logo{
+    margin-top:30px;
+    width:120px;
+}
+
 .container{
-    margin-top:100px;
+    margin-top:40px;
 }
+
 input{
-    padding:10px;
+    padding:12px;
     font-size:18px;
+    background:black;
+    color:white;
+    border:2px solid white;
 }
+
 button{
-    padding:10px 20px;
+    padding:12px 30px;
     font-size:18px;
     cursor:pointer;
+    background:white;
+    color:black;
+    border:none;
+    font-weight:bold;
 }
-#resultBox{
-    font-size:24px;
-    margin-top:20px;
+
+button:disabled{
+    background:gray;
+}
+
+#wheel{
+    margin:30px auto;
+    width:260px;
+    height:260px;
+    border-radius:50%;
+    border:6px solid white;
+    transition:transform 10s ease-out;
+    background: conic-gradient(
+        #222 0% 50%,
+        #fff 50% 100%
+    );
+}
+
+#pointer{
+    width:0;
+    height:0;
+    border-left:20px solid transparent;
+    border-right:20px solid transparent;
+    border-bottom:40px solid white;
+    margin:auto;
 }
 </style>
 </head>
 
 <body>
 
+<img src="logo.png" class="logo">
+
 <div class="container" id="passwordPage">
     <h2>Enter Event Password</h2>
-    <input type="password" id="passwordInput" placeholder="Enter Password">
+    <input type="password" id="passwordInput">
     <br><br>
     <button onclick="checkPassword()">Enter</button>
-    <p id="errorMsg" style="color:red;"></p>
-</div>
-
-<div class="container" id="spinPage" style="display:none;">
-    <h2>Spin The Wheel</h2>
-    <button id="spinBtn" onclick="spinWheel()">SPIN</button>
-    <div id="resultBox"></div>
-</div>
-
-<script>
-
-// PASSWORD
-const correctPassword = "LSSATYA0717";
-
-// Check password
-function checkPassword(){
-    let userPass = document.getElementById("passwordInput").value;
-    if(userPass === correctPassword){
-        document.getElementById("passwordPage").style.display="none";
-        document.getElementById("spinPage").style.display="block";
-    } else {
-        document.getElementById("errorMsg").innerText="Wrong Password!";
-    }
-}
-
-// Prevent back navigation
-history.pushState(null, null, location.href);
-window.onpopstate = function () {
-    history.go(1);
-};
-
-// Check if already played
-if(localStorage.getItem("played") === "yes"){
-    document.getElementById("passwordPage").innerHTML="<h2>You Already Played!</h2>";
-}
-
-// Spin logic
-function spinWheel(){
-
-    if(localStorage.getItem("played") === "yes"){
-        return;
-    }
-
-    let spinCount = localStorage.getItem("spinCount");
-    if(!spinCount){
-        spinCount = 0;
-    }
-
-    spinCount = parseInt(spinCount) + 1;
-    localStorage.setItem("spinCount", spinCount);
-
-    let result;
-
-    // 16 lose + 1 win logic
-    if(spinCount % 17 === 0){
-        result = "FREE 🎉";
-    } else {
-        result = "BETTER LUCK NEXT TIME 😢";
-    }
-
-    document.getElementById("resultBox").innerHTML = "<h3>"+result+"</h3>";
-
-    document.getElementById("spinBtn").disabled = true;
-
-    localStorage.setItem("played","yes");
-}
-
-</script>
-
-</body>
-</html>
+    <p id="errorMsg" style="c
